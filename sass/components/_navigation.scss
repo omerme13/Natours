@@ -1,0 +1,165 @@
+.navigation {
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__background {
+        width: 6rem;
+        height: 6rem;
+        position: fixed;
+        top: 6.5rem;
+        right: 6.5rem;
+        z-index: 11;
+        border-radius: 50%;
+        background-image: radial-gradient($color-primary-light, $color-primary-dark);
+        transition: 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+
+        @include respond(tab-port) {
+            top: 4.5rem;
+            right: 5.5rem;
+        }
+
+        @include respond(phone) {
+            top: 3.5rem;
+            right: 4.5rem;
+        }
+    }
+
+    &__button {
+        width: 7rem;
+        height: 7rem;
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        z-index: 13;
+        border-radius: 50%;
+        box-shadow: 0 1rem 3rem rgba(black, 0.15);
+        background: whitesmoke;
+        cursor: pointer;
+
+        @include respond(tab-port) {
+            top: 4rem;
+            right: 5rem;
+        }
+
+        @include respond(phone) {
+            top: 3rem;
+            right: 4rem;
+        }
+    }
+
+    &__nav {
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 12;
+        visibility: hidden;
+        opacity: 0; // i can't just set opacity to 0 because the links are still active so i used visibility: hidden to hide it but opacity for the animation
+        transition: opacity 0.5s;
+    }
+
+    &__list {
+        list-style: none;
+        @include center-item-h-v;
+    }
+
+    &__item {
+        text-align: center;
+        margin: 1.5rem;
+    }
+
+    &__link {
+        &:link,
+        &:visited {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 3rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            background-image: linear-gradient(120deg, transparent 0%, transparent 50%, white 50%);
+            background-size: 230%;
+            transition: 0.4s;
+        }
+
+        &:hover, 
+        &:active {
+            color: $color-primary;
+            background-position: 100%;
+
+        }
+    }
+
+    // functionality
+    &__checkbox:checked ~ &__background { // we select a non direct sibling ('+' is a selector for next sibling)
+        transform: scale(80);
+    }
+    
+    &__checkbox:checked ~ &__nav {
+        visibility: visible;
+        opacity: 1; // for animation purposes
+    }
+
+    // icon
+    &__icon {
+        position: relative;
+        display: inline-block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &,
+        &::before,
+        &::after {
+            background: $color-grey-dark;
+            height: 2px;
+            width: 3rem;
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            transition: 0.3s;
+        }
+
+        &:before {
+            top: -0.8rem;
+        }
+
+        &:after {
+            top: 0.8rem;
+        }
+
+    }
+
+    &__button:hover &__icon {
+
+        &::before {
+            transform: translateY(-2px);
+        }
+
+        &::after {
+            transform: translateY(2px);
+        }
+    }
+
+    &__checkbox:checked + &__button &__icon {
+        background: transparent; 
+
+        &:before {
+            transform: rotate(225deg);
+            top: 0;
+        }
+
+        &:after {
+            transform: rotate(-225deg);
+            top: 0;
+        }
+    }
+}
